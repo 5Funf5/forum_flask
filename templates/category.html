@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="{{ url_for('index') }}">{{ 'Вернутся назад' }}</a>
+<div class="categories">
+    
+        <div class="category">
+            <h2>Категория</h2>
+            <h3>{{ category[2] }}</h3>
+            <p>{{ category[3] }}</p>
+            <small>Создатель: {{ category[5] }}</small>
+            <div class="recent-topics">
+                <br>
+                <h4>Темы</h4>
+                {% if not topics %}
+                    <br>
+                    <h3>Пусто</h3>
+                {% endif %}
+                {% for topic in topics %}
+                    <div class="topic-preview">
+                        <h4><a href="{{ url_for('topic', topic_id=topic[0]) }}">{{ topic[3] }}</a></h4>
+                        <small>Создатель: {{ topic[6] }}</small>
+                        <br>
+                        <small>Время: {{ topic[5] }}</small>
+                        {% if session.username == topic[6] %}
+                        <form method="POST" style="display: inline;">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="topic_id" value="{{ topic[0] }}">
+                            <br>
+                            <button class='delete_button' type="submit" class="btn btn-danger" 
+                                    onclick="return confirm('Удалить тему под названием {{ topic[3] }}?')">Удалить</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+</div>
+{% if session.username %}
+<form method="POST">
+    <div class="form-group">
+        <label for="content">Название:</label>
+        <input id="name" name="name" rows="1" required></input>
+    </div>
+    <div class="form-group">
+        <label for="content">Описание:</label>
+        <textarea id="description" name="description" rows="1" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать категорию</button>
+</form>
+{% endif %}
+
+{% endblock %}

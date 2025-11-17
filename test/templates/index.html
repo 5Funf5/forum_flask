@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="forum-header">
+    <h1>Добро пожаловать на форум!</h1>
+    {% if session.username %}
+        <a href="{{ url_for('create_topic') }}" class="btn btn-primary">Создать тему</a>
+    {% endif %}
+</div>
+
+<div class="categories">
+    <h2>Категории</h2>
+    {% for category in categories %}
+        <div class="category">
+            <h3><a href="{{ url_for('category', category_id=category[0]) }}">{{ category[2] }}</a></h3>
+            <p>{{ category[3] }}</p>
+            <small>Тем: </small>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="recent-topics">
+    <h2>Последние темы</h2>
+    {% for topic in recent_topics %}
+        <div class="topic-preview">
+            <h4><a href="{{ url_for('topic', topic_id=topic[0]) }}">{{ topic[3] }}</a></h4>
+            <small>Время</small>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

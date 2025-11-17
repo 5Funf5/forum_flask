@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a href="{{ url_for('category', category_id=category) }}">{{ 'Вернутся назад' }}</a>
+<div class="categories">
+    
+        <div class="category">
+            <h2>Тема</h2>
+            <h3>{{ topic[3] }}</h3>
+            <p>{{ topic[4] }}</p>
+            <small>Создатель: {{ topic[6] }}</small>
+            <div class="recent-topics">
+                <br>
+                <h4>Сообщения</h4>
+                {% if not posts %}
+                    <br>
+                    <h3>Пусто</h3>
+                {% endif %}
+                {% for post in posts %}
+                    <div class="topic-preview">
+                        <h4>{{ post[3] }}</h4>
+                        <small>Создатель: {{ post[5] }}</small>
+                        <br>
+                        <small>Время: {{ post[4] }}</small>
+                        {% if session.username == post[5] %}
+                        <form method="POST" style="display: inline;">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="post_id" value="{{ post[0] }}">
+                            <br>
+                            <button class='delete_button' type="submit" class="btn btn-danger" 
+                                    onclick="return confirm('Удалить следующее сообщение: {{ post[3] }}?')">Удалить</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+</div>
+{% if session.username %}
+
+<form method="POST">
+    <div class="form-group">
+        <label for="content">Сообщение:</label>
+        <textarea id="content" name="content" rows="1" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+
+{% endif %}
+
+{% endblock %}

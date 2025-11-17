@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="topic-header">
+    <h1>{{ topic.title }}</h1>
+    <small>Автор: {{ topic.author.username }} | {{ topic.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+</div>
+
+<div class="topic-content">
+    <p>{{ topic.content }}</p>
+</div>
+
+<div class="posts">
+    <h3>Ответы ({{ posts|length }})</h3>
+    {% for post in posts %}
+        <div class="post">
+            <div class="post-header">
+                <strong>{{ post.author.username }}</strong>
+                <small>{{ post.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+            </div>
+            <div class="post-content">
+                {{ post.content }}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% if session.username %}
+<div class="reply-form">
+    <h3>Оставить ответ</h3>
+    <form method="POST" action="{{ url_for('reply', topic_id=topic.id) }}">
+        <textarea name="content" rows="5" required placeholder="Ваш ответ..."></textarea>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>
+{% else %}
+<p><a href="{{ url_for('login') }}">Войдите</a> чтобы оставить ответ.</p>
+{% endif %}
+{% endblock %}
