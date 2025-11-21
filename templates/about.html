@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас - Форум</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="{{ url_for('index') }}" class="logo">Форум</a>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}">Главная</a></li>
+                    <li><a href="{{ url_for('profile') }}">Профиль</a></li>
+                    <li><a href="{{ url_for('about') }}">О нас</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h1>О нашем форуме</h1>
+                </div>
+                <div class="card-body">
+                    <div style="max-width: 800px; margin: 0 auto;">
+                        <h2 style="margin-bottom: 1rem;">Добро пожаловать на наш форум</h2>
+                        <p style="margin-bottom: 1.5rem; line-height: 1.8;">
+                            Мы создали это сообщество для обмена знаниями, идеями и опытом. 
+                            Наш форум объединяет людей с общими интересами и предоставляет 
+                            платформу для конструктивного обсуждения.
+                        </p>
+                        
+                        <h3 style="margin: 2rem 0 1rem 0;">Наши принципы</h3>
+                        <ul style="margin-bottom: 1.5rem; padding-left: 1.5rem; line-height: 1.8;">
+                            <li>Уважение к другим участникам</li>
+                            <li>Конструктивный диалог</li>
+                            <li>Свобода выражения в рамках правил</li>
+                            <li>Взаимопомощь и поддержка</li>
+                        </ul>
+
+                        <h3 style="margin: 2rem 0 1rem 0;">Статистика сообщества</h3>
+                        <div class="flex gap-4" style="margin-bottom: 2rem;">
+                            <div class="card" style="flex: 1; text-align: center;">
+                                <div class="card-body">
+                                    <div style="font-size: 2rem; font-weight: bold;">{{ stats.users }}</div>
+                                    <div class="text-muted">Пользователей</div>
+                                </div>
+                            </div>
+                            <div class="card" style="flex: 1; text-align: center;">
+                                <div class="card-body">
+                                    <div style="font-size: 2rem; font-weight: bold;">{{ stats.threads }}</div>
+                                    <div class="text-muted">Тем</div>
+                                </div>
+                            </div>
+                            <div class="card" style="flex: 1; text-align: center;">
+                                <div class="card-body">
+                                    <div style="font-size: 2rem; font-weight: bold;">{{ stats.posts }}</div>
+                                    <div class="text-muted">Сообщений</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin: 2rem 0 1rem 0;">Правила форума</h3>
+                        <div class="card">
+                            <div class="card-body">
+                                <ol style="line-height: 1.8; padding-left: 1.5rem;">
+                                    <li>Запрещены оскорбления и нецензурная лексика</li>
+                                    <li>Соблюдайте тематику разделов</li>
+                                    <li>Запрещена реклама без согласования</li>
+                                    <li>Уважайте мнение других участников</li>
+                                    <li>Не распространяйте личную информацию без согласия</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Форум. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>
