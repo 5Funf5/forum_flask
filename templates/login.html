@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form_type == 'register' %}Регистрация{% else %}Вход{% endif %} - Форум</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #404040;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: none;
+            border: none;
+            color: #b0b0b0;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+            text-decoration: none;
+            display: block;
+        }
+
+        .auth-tab.active {
+            color: #ffffff;
+            border-bottom-color: #0066cc;
+        }
+
+        .auth-tab:hover {
+            color: #ffffff;
+            background-color: #363636;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #404040;
+        }
+
+        .form-footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .flash-messages {
+            margin-bottom: 1rem;
+        }
+
+        .flash-message {
+            background-color: #2d2d2d;
+            border: 1px solid;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .flash-success {
+            border-color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+
+        .flash-error {
+            border-color: #f44336;
+            background-color: rgba(244, 67, 54, 0.1);
+        }
+
+        .flash-warning {
+            border-color: #ff9800;
+            background-color: rgba(255, 152, 0, 0.1);
+        }
+
+        .flash-info {
+            border-color: #2196F3;
+            background-color: rgba(33, 150, 243, 0.1);
+        }
+
+        .flash-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .flash-success .flash-icon {
+            background-color: #4CAF50;
+            color: #1a1a1a;
+        }
+
+        .flash-error .flash-icon {
+            background-color: #f44336;
+            color: #1a1a1a;
+        }
+
+        .flash-warning .flash-icon {
+            background-color: #ff9800;
+            color: #1a1a1a;
+        }
+
+        .flash-info .flash-icon {
+            background-color: #2196F3;
+            color: #1a1a1a;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="{{ url_for('index') }}" class="logo">Форум</a>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}">Главная</a></li>
+                    <li><a href="{{ url_for('profile') }}">Профиль</a></li>
+                    <li><a href="{{ url_for('about') }}">О нас</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="auth-container">
+            <!-- Flash сообщения -->
+            <div class="flash-messages">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for message in messages %}
+                                <div class="flash-message">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h1 style="text-align: center;">
+                        {% if form_type == 'register' %}
+                            Регистрация
+                        {% else %}
+                            Вход
+                        {% endif %}
+                    </h1>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Табы для переключения между входом и регистрацией -->
+                    <div class="auth-tabs">
+                        <a href="{{ url_for('login_page') }}?form=login" class="auth-tab {% if form_type != 'register' %}active{% endif %}">
+                            Вход
+                        </a>
+                        <a href="{{ url_for('login_page') }}?form=register" class="auth-tab {% if form_type == 'register' %}active{% endif %}">
+                            Регистрация
+                        </a>
+                    </div>
+
+                    <!-- Форма входа -->
+                    {% if form_type != 'register' %}
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <input type="hidden" name="form_type" value="login">
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="login-username">Имя пользователя</label>
+                            <input type="text" class="form-input" id="login-username" name="username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="login-password">Пароль</label>
+                            <input type="password" class="form-input" id="login-password" name="password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                            Войти
+                        </button>
+
+                        <div class="form-footer">
+                            <a href="{{ url_for('index') }}">Вернуться на главную</a>
+                        </div>
+                    </form>
+                    {% endif %}
+
+                    <!-- Форма регистрации -->
+                    {% if form_type == 'register' %}
+                    <form method="POST" action="{{ url_for('register') }}">
+                        <input type="hidden" name="form_type" value="register">
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="register-username">Имя пользователя</label>
+                            <input type="text" class="form-input" id="register-username" name="username" required>
+                            <div class="text-small text-muted">От 3 до 20 символов</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-email">Email</label>
+                            <input type="email" class="form-input" id="register-email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-password">Пароль</label>
+                            <input type="password" class="form-input" id="register-password" name="password" required>
+                            <div class="text-small text-muted">Не менее 6 символов</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="register-confirm-password">Подтвердите пароль</label>
+                            <input type="password" class="form-input" id="register-confirm-password" name="confirm_password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <input type="checkbox" name="agree_terms" required>
+                                Я согласен с <a href="#" style="color: #0066cc;">правилами форума</a>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                            Зарегистрироваться
+                        </button>
+
+                        <div class="form-footer">
+                            <a href="{{ url_for('index') }}">Вернуться на главную</a>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Форум. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>

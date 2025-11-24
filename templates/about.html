@@ -15,6 +15,9 @@
                     <li><a href="{{ url_for('index') }}">Главная</a></li>
                     <li><a href="{{ url_for('profile') }}">Профиль</a></li>
                     <li><a href="{{ url_for('about') }}">О нас</a></li>
+                    {% if session.user_id %}
+                    <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -53,7 +56,7 @@
                             </div>
                             <div class="card" style="flex: 1; text-align: center;">
                                 <div class="card-body">
-                                    <div style="font-size: 2rem; font-weight: bold;">{{ stats.threads }}</div>
+                                    <div style="font-size: 2rem; font-weight: bold;">{{ stats.topics }}</div>
                                     <div class="text-muted">Тем</div>
                                 </div>
                             </div>

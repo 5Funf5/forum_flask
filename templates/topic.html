@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ thread.title }} - Форум</title>
+    <title>{{ topic.title }} - Форум</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
@@ -15,17 +15,29 @@
                     <li><a href="{{ url_for('index') }}">Главная</a></li>
                     <li><a href="{{ url_for('profile') }}">Профиль</a></li>
                     <li><a href="{{ url_for('about') }}">О нас</a></li>
+                    {% if session.user_id %}
+                    <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
     </header>
 
     <main class="main-content">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         <div class="container">
             <div class="card">
                 <div class="card-header">
-                    <h1>{{ thread.title }}</h1>
-                    <p class="text-muted">Категория: {{ thread.category }} • Автор: {{ thread.author }}</p>
+                    <h1>{{ topic.title }}</h1>
+                    <p class="text-muted">Категория: {{ topic.category }} • Автор: {{ topic.author }}</p>
                 </div>
             </div>
 
@@ -35,9 +47,9 @@
                     <div class="flex gap-4">
                         <div style="min-width: 120px; text-align: center;">
                             <div class="avatar avatar-large" style="margin: 0 auto 1rem auto;">
-                                {{ post.author[:1] }}
+                                {{ post.username[:1] }}
                             </div>
-                            <div class="text-small">{{ post.author }}</div>
+                            <div class="text-small">{{ post.username }}</div>
                             <div class="text-small text-muted">{{ post.post_count }} сообщ.</div>
                         </div>
                         <div style="flex: 1;">
