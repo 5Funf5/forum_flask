@@ -84,6 +84,13 @@ def create_db():
 def index():
     
     categories = Category.query.all()
+    for categories_id in categories:
+        categories_id.topic_count = len(Topic.query.filter(Topic.category_id==categories_id.id).all())
+        post_all = Topic.query.filter(Topic.category_id==categories_id.id).all()
+        categories_id.post_count = 0
+        for post_id in post_all:
+            number = len(Post.query.filter(Post.topic_id==post_id.id).all())
+            categories_id.post_count = categories_id.post_count + number
     return render_template('index.html', categories=categories)
 
 
@@ -94,10 +101,25 @@ def profile():
         return redirect(url_for('login'))
     user_id = session['user_id']
     user = User.query.get(user_id)
+    user.is_online = session['online']
+    user.post_count = len(Post.query.filter(user_id==user_id).all())
+    user.topic_count = len(Topic.query.filter(user_id==user_id).all())
+    user.reputation = 10
+    recent_posts = Post.query\
+        .join(Topic, Post.topic_id == Topic.id)\
+        .add_columns(
+            Post.id,
+            Post.content,
+            Post.created_at,
+            Post.topic_id,
+            Topic.title.label('topic_title')
+        )\
+        .limit(5)\
+        .all()
     if not user:
         flash('Пользователь не найден')
         return redirect(url_for('login'))
-    return render_template('profile.html', user=user)
+    return render_template('profile.html', user=user, recent_posts=recent_posts)
 
 @app.route('/login', methods=['GET'])
 def login_page():
@@ -125,6 +147,7 @@ def login():
         if user:
             session['user_id'] = user.id
             session['username'] = user.username
+            session['online'] = 'online'
 
             flash('Вы успешно вошли в систему!', 'success')
             return redirect(url_for('index'))
