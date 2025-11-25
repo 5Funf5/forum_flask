@@ -37,6 +37,7 @@
             <div class="card">
                 <div class="card-header">
                     <h1>{{ topic.title }}</h1>
+                    <h3 class="text-muted">{{ topic.content }}</h3>
                     <p class="text-muted">Категория: {{ topic.category }} • Автор: {{ topic.author }}</p>
                 </div>
             </div>
@@ -60,6 +61,15 @@
                                 {{ post.content }}
                             </div>
                         </div>
+                        {% if session.username == post.username %}
+                                        <form method="POST" style="display: inline;">
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                                            <br>
+                                            <button class='btn' type="submit" class="btn btn-danger" 
+                                                    onclick="return confirm('Удалить сообщение: {{ post.content }}?')">Удалить</button>
+                                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>

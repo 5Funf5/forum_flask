@@ -37,7 +37,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="flex justify-between items-center">
-                        <h1>{{ category.title }}</h1>
+                        <h1>{{ category.name }}</h1>
                     </div>
                     <p class="text-muted">{{ category.description }}</p>
                 </div>
@@ -56,12 +56,24 @@
                                     <p class="text-muted text-small">{{ topic.content }}</p>
                                     <br>
                                     <p class="text-muted text-small">Автор: {{ topic.author }} • {{ topic.created_at }}</p>
+                                    {% if session.user_id == topic.user_id %}
+                                        <form method="POST" style="display: inline;">
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="topic_id" value="{{ topic.id }}">
+                                            <br>
+                                            <button class='btn' type="submit" class="btn btn-danger" 
+                                                    onclick="return confirm('Удалить тему под названием {{ topic.title }}?')">Удалить</button>
+                                        </form>
+                                    {% endif %}
                                 </div>
+                                
                                 <div class="text-right">
                                     <div class="text-small">Ответов: {{ topic.reply_count }}</div>
                                     <div class="text-small text-muted">Просмотров: {{ topic.views }}</div>
                                 </div>
+                                
                             </div>
+                            
                         </li>
                         {% endfor %}
                     </ul>

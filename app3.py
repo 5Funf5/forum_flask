@@ -82,6 +82,7 @@ def create_db():
     
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    
     categories = Category.query.all()
     return render_template('index.html', categories=categories)
 
@@ -188,14 +189,23 @@ def category(category_id):
     
     topics = Topic.query.filter(Topic.category_id == category_id)
     if request.method == 'POST':
-        content = request.form['content']
-        title = request.form['title']
+        action = request.form.get('action')
+        if action == 'delete':
+            topic_id = request.form.get('topic_id')
+            delete_topic = Topic.query.get(topic_id)
+            if delete_topic:
+                db.session.delete(delete_topic)
+                db.session.commit()
+                flash('Категория удалена')
+        else:
+            content = request.form['content']
+            title = request.form['title']
 
-        user_id = session['user_id']
-        topic = Topic(content=content, user_id=user_id, category_id=category_id,title=title)
-        db.session.add(topic)
-        db.session.commit()
-        flash('Вы создали тему')
+            user_id = session['user_id']
+            topic = Topic(content=content, user_id=user_id, category_id=category_id,title=title)
+            db.session.add(topic)
+            db.session.commit()
+            flash('Вы создали тему')
     return render_template('category.html',category=category,topics=topics)
 
 @app.route('/topic/<int:topic_id>', methods=['GET', 'POST'])
@@ -204,15 +214,24 @@ def topic(topic_id):
     posts = Post.query\
             .join(User, Post.user_id == User.id)\
             .join(Topic, Post.topic_id == Topic.id)\
-            .add_columns(Post.content, Post.created_at, User.username, Topic.title)\
+            .add_columns(Post.id, Post.content, Post.created_at, User.username, Topic.title)\
             .filter(Post.topic_id == topic_id)
     if request.method == 'POST':
-        content = request.form['content']
-        user_id = session['user_id']
-        post = Post(content=content, user_id=user_id, topic_id=topic_id)
-        db.session.add(post)
-        db.session.commit()
-        flash('Вы отправили сообщение')
+        action = request.form.get('action')
+        if action == 'delete':
+            post_id = request.form.get('post_id')
+            delete_post = Post.query.get(post_id)
+            if delete_post:
+                db.session.delete(delete_post)
+                db.session.commit()
+                flash('Сообщение удалено')
+        else:
+            content = request.form['content']
+            user_id = session['user_id']
+            post = Post(content=content, user_id=user_id, topic_id=topic_id)
+            db.session.add(post)
+            db.session.commit()
+            flash('Вы отправили сообщение')
     return render_template('topic.html', topic=topic, posts=posts)
         
     
