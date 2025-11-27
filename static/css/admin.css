@@ -1,0 +1,454 @@
+/* Стили для админ-панели */
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #1a1a1a;
+}
+
+/* Sidebar */
+.admin-sidebar {
+    width: 250px;
+    background-color: #2d2d2d;
+    border-right: 1px solid #404040;
+    padding: 1.5rem 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.admin-sidebar-header {
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid #404040;
+    margin-bottom: 1rem;
+}
+
+.admin-sidebar-title {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.admin-sidebar-subtitle {
+    color: #b0b0b0;
+    font-size: 0.9rem;
+}
+
+.admin-nav {
+    list-style: none;
+}
+
+.admin-nav-item {
+    margin-bottom: 0.25rem;
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: #b0b0b0;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.admin-nav-link:hover {
+    background-color: #363636;
+    color: #ffffff;
+    border-left-color: #555;
+}
+
+.admin-nav-link.active {
+    background-color: #363636;
+    color: #ffffff;
+    border-left-color: #0066cc;
+}
+
+.admin-nav-icon {
+    margin-right: 0.75rem;
+    width: 20px;
+    text-align: center;
+}
+
+.admin-nav-badge {
+    margin-left: auto;
+    background-color: #0066cc;
+    color: #ffffff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+/* Main content */
+.admin-main {
+    flex: 1;
+    margin-left: 250px;
+    padding: 2rem;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #404040;
+}
+
+.admin-header-title {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 7px;
+}
+
+.admin-header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Admin cards */
+.admin-card {
+    background-color: #2d2d2d;
+    border: 1px solid #404040;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    margin: 10PX;
+}
+
+.admin-card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #404040;
+    background-color: #363636;
+    display: flex;
+    justify-content: between;
+    align-items: center;
+}
+
+.admin-card-title {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.admin-card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.admin-card-body {
+    padding: 1.5rem;
+}
+
+.admin-card-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #404040;
+    background-color: #363636;
+}
+
+/* Stats grid */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.admin-stat-card {
+    background-color: #2d2d2d;
+    border: 1px solid #404040;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-2px);
+    border-color: #555;
+}
+
+.admin-stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.admin-stat-label {
+    color: #b0b0b0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-stat-trend {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.admin-stat-trend.positive {
+    color: #4CAF50;
+}
+
+.admin-stat-trend.negative {
+    color: #f44336;
+}
+
+/* Tables */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #2d2d2d;
+}
+
+.admin-table th {
+    background-color: #363636;
+    color: #e0e0e0;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid #404040;
+}
+
+.admin-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #404040;
+    color: #e0e0e0;
+}
+
+.admin-table tr:hover {
+    background-color: #363636;
+}
+
+.admin-table-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Badges */
+.admin-badge {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.admin-badge-success {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
+}
+
+.admin-badge-warning {
+    background-color: rgba(255, 152, 0, 0.2);
+    color: #ff9800;
+    border: 1px solid #ff9800;
+}
+
+.admin-badge-danger {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    border: 1px solid #f44336;
+}
+
+.admin-badge-info {
+    background-color: rgba(33, 150, 243, 0.2);
+    color: #2196F3;
+    border: 1px solid #2196F3;
+}
+
+.admin-badge-primary {
+    background-color: rgba(0, 102, 204, 0.2);
+    color: #0066cc;
+    border: 1px solid #0066cc;
+}
+
+/* Forms */
+.admin-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.admin-form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #e0e0e0;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.admin-form-input {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #363636;
+    border: 1px solid #404040;
+    border-radius: 4px;
+    color: #e0e0e0;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.admin-form-input:focus {
+    outline: none;
+    border-color: #0066cc;
+}
+
+.admin-form-select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #363636;
+    border: 1px solid #404040;
+    border-radius: 4px;
+    color: #e0e0e0;
+    font-size: 1rem;
+}
+
+.admin-form-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #363636;
+    border: 1px solid #404040;
+    border-radius: 4px;
+    color: #e0e0e0;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Search and filters */
+.admin-search-box {
+    position: relative;
+    max-width: 300px;
+}
+
+.admin-search-input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    background-color: #363636;
+    border: 1px solid #404040;
+    border-radius: 4px;
+    color: #e0e0e0;
+}
+
+.admin-search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b0b0b0;
+}
+
+.admin-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.admin-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Pagination */
+.admin-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.admin-pagination .btn {
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Quick actions */
+.admin-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.admin-quick-action {
+    background-color: #2d2d2d;
+    border: 1px solid #404040;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    color: #e0e0e0;
+    transition: all 0.3s;
+}
+
+.admin-quick-action:hover {
+    background-color: #363636;
+    border-color: #555;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.admin-quick-action-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: none;
+    }
+    
+    .admin-sidebar.mobile-open {
+        display: block;
+    }
+    
+    .admin-main {
+        margin-left: 0;
+        padding: 1rem;
+    }
+    
+    .admin-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .admin-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-table {
+        font-size: 0.9rem;
+    }
+    
+    .admin-table-actions {
+        flex-direction: column;
+    }
+}
+
+/* Mobile menu button */
+.admin-mobile-menu {
+    display: none;
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .admin-mobile-menu {
+        display: block;
+    }
+}

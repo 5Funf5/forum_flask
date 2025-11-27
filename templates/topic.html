@@ -50,7 +50,9 @@
                             <div class="avatar avatar-large" style="margin: 0 auto 1rem auto;">
                                 {{ post.username[:1] }}
                             </div>
-                            <div class="text-small">{{ post.username }}</div>
+                            <div class="text-small"><a href="{{ url_for('profile', username=post.username) }}" style="color: #ffffff; text-decoration: none;">
+                                {{ post.username }}
+                            </a></div>
                             <div class="text-small text-muted">{{ post.post_count }} сообщ.</div>
                         </div>
                         <div style="flex: 1;">

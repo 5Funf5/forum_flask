@@ -94,17 +94,32 @@ def index():
     return render_template('index.html', categories=categories)
 
 
-@app.route('/profile/', methods=['GET', 'POST'])
-def profile():
-    if 'user_id' not in session:
-        flash('Для просмотра профиля необходимо войти в систему')
-        return redirect(url_for('login'))
-    user_id = session['user_id']
-    user = User.query.get(user_id)
-    user.is_online = session['online']
-    user.post_count = len(Post.query.filter(user_id==user_id).all())
-    user.topic_count = len(Topic.query.filter(user_id==user_id).all())
+@app.route('/profile/')
+@app.route('/profile/<string:username>')
+def profile(username=None):
+    # Если username не указан, показываем профиль текущего пользователя
+    if username is None:
+        if 'user_id' not in session:
+            flash('Для просмотра профиля необходимо войти в систему')
+            return redirect(url_for('login'))
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+        if not user:
+            flash('Пользователь не найден')
+            return redirect(url_for('login'))
+    else:
+        # Ищем пользователя по username
+        user = User.query.filter(User.username == username).first()
+        if not user:
+            flash('Пользователь не найден')
+            return redirect(url_for('index'))  # или куда-то еще
+    
+    # Общая логика для обоих случаев
+    user.is_online = session.get('online', False) if username is None else False
+    user.post_count = len(Post.query.filter(Post.user_id==user.id).all())
+    user.topic_count = len(Topic.query.filter(Topic.user_id==user.id).all())
     user.reputation = 10
+    
     recent_posts = Post.query\
         .join(Topic, Post.topic_id == Topic.id)\
         .add_columns(
@@ -114,11 +129,10 @@ def profile():
             Post.topic_id,
             Topic.title.label('topic_title')
         )\
+        .filter(Post.user_id==user.id)\
         .limit(5)\
         .all()
-    if not user:
-        flash('Пользователь не найден')
-        return redirect(url_for('login'))
+    
     return render_template('profile.html', user=user, recent_posts=recent_posts)
 
 @app.route('/login', methods=['GET'])
@@ -256,6 +270,60 @@ def topic(topic_id):
             db.session.commit()
             flash('Вы отправили сообщение')
     return render_template('topic.html', topic=topic, posts=posts)
+        
+from flask import Flask, render_template, session, redirect, url_for
+from functools import wraps
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+        # Проверка прав администратора (замените на свою логику)
+        # flash('Доступ запрещен. Требуются права администратора.', 'error')
+        # return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/admin')
+@admin_required
+def admin_dashboard():
+    return render_template('admin/admin_dashboard.html')
+
+@app.route('/admin/users')
+@admin_required
+def admin_users():
+    return render_template('admin/admin_users.html')
+
+@app.route('/admin/topics')
+@admin_required
+def admin_topics():
+    return render_template('admin/admin_topics.html')
+
+@app.route('/admin/posts')
+@admin_required
+def admin_posts():
+    return render_template('admin/admin_posts.html')
+
+@app.route('/admin/categories')
+@admin_required
+def admin_categories():
+    return render_template('admin/admin_categories.html')
+
+@app.route('/admin/moderation')
+@admin_required
+def admin_moderation():
+    return render_template('admin/admin_moderation.html')
+
+@app.route('/admin/settings')
+@admin_required
+def admin_settings():
+    return render_template('admin/admin_settings.html')        
+        
+        
+        
+        
+        
         
     
 if __name__ == '__main__':

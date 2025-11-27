@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block admin_title %}Админ-панель{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-sidebar-header">
+                <div class="admin-sidebar-title">Админ-панель</div>
+                <div class="admin-sidebar-subtitle">Форум управление</div>
+            </div>
+            
+            <nav>
+                <ul class="admin-nav">
+                    <li class="admin-nav-item">
+                        <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link {% if request.endpoint == 'admin_dashboard' %}active{% endif %}">
+                            <span class="admin-nav-icon">📊</span>
+                            Дашборд
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="{{ url_for('admin_users') }}" class="admin-nav-link {% if request.endpoint == 'admin_users' %}active{% endif %}">
+                            <span class="admin-nav-icon">👥</span>
+                            Пользователи
+                            <span class="admin-nav-badge">42</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="{{ url_for('admin_topics') }}" class="admin-nav-link {% if request.endpoint == 'admin_topics' %}active{% endif %}">
+                            <span class="admin-nav-icon">💬</span>
+                            Темы
+                            <span class="admin-nav-badge">156</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="{{ url_for('admin_posts') }}" class="admin-nav-link {% if request.endpoint == 'admin_posts' %}active{% endif %}">
+                            <span class="admin-nav-icon">📝</span>
+                            Сообщения
+                            <span class="admin-nav-badge">1.2k</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="{{ url_for('admin_categories') }}" class="admin-nav-link {% if request.endpoint == 'admin_categories' %}active{% endif %}">
+                            <span class="admin-nav-icon">📂</span>
+                            Категории
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="{{ url_for('admin_moderation') }}" class="admin-nav-link {% if request.endpoint == 'admin_moderation' %}active{% endif %}">
+                            <span class="admin-nav-icon">🛡️</span>
+                            Модерация
+                            <span class="admin-nav-badge">5</span>
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="{{ url_for('admin_settings') }}" class="admin-nav-link {% if request.endpoint == 'admin_settings' %}active{% endif %}">
+                            <span class="admin-nav-icon">⚙️</span>
+                            Настройки
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div>
+                    <button class="admin-mobile-menu" onclick="toggleSidebar()">☰</button>
+                    <h1 class="admin-header-title">{% block admin_page_title %}Дашборд{% endblock %}</h1>
+                </div>
+                <div class="admin-header-actions">
+                    <a href="{{ url_for('index') }}" class="btn" target="_blank">На сайт</a>
+                    <a href="{{ url_for('logout') }}" class="btn">Выйти</a>
+                </div>
+            </header>
+
+            <!-- Flash messages -->
+            <div class="flash-messages">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}">
+                                <span class="flash-icon">
+                                    {% if category == 'success' %}
+                                        ✓
+                                    {% elif category == 'error' %}
+                                        ✕
+                                    {% elif category == 'warning' %}
+                                        ⚠
+                                    {% elif category == 'info' %}
+                                        ℹ
+                                    {% else %}
+                                        •
+                                    {% endif %}
+                                </span>
+                                <span class="flash-text">{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <!-- Content -->
+            {% block admin_content %}{% endblock %}
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+    </script>
+
+    {% block admin_scripts %}{% endblock %}
+</body>
+</html>

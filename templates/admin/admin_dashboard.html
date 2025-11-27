@@ -1,0 +1,128 @@
+{% extends "admin/admin_base.html" %}
+
+{% block admin_title %}Дашборд - Админ-панель{% endblock %}
+{% block admin_page_title %}Дашборд1{% endblock %}
+
+{% block admin_content %}
+<!-- Статистика -->
+<div class="admin-stats-grid">
+    <div class="admin-stat-card">
+        <div class="admin-stat-number">1,248</div>
+        <div class="admin-stat-label">Всего сообщений</div>
+        <div class="admin-stat-trend positive">+12% за неделю</div>
+    </div>
+    <div class="admin-stat-card">
+        <div class="admin-stat-number">156</div>
+        <div class="admin-stat-label">Активных тем</div>
+        <div class="admin-stat-trend positive">+5% за неделю</div>
+    </div>
+    <div class="admin-stat-card">
+        <div class="admin-stat-number">42</div>
+        <div class="admin-stat-label">Пользователей</div>
+        <div class="admin-stat-trend positive">+3 новых</div>
+    </div>
+    <div class="admin-stat-card">
+        <div class="admin-stat-number">5</div>
+        <div class="admin-stat-label">На модерации</div>
+        <div class="admin-stat-trend negative">+2 новых</div>
+    </div>
+</div>
+
+<!-- Быстрые действия -->
+<div class="admin-quick-actions">
+    <a href="{{ url_for('admin_users') }}" class="admin-quick-action">
+        <span class="admin-quick-action-icon">👥</span>
+        Управление пользователями
+    </a>
+    <a href="{{ url_for('admin_moderation') }}" class="admin-quick-action">
+        <span class="admin-quick-action-icon">🛡️</span>
+        Модерация контента
+    </a>
+    <a href="{{ url_for('admin_categories') }}" class="admin-quick-action">
+        <span class="admin-quick-action-icon">📂</span>
+        Управление категориями
+    </a>
+    <a href="{{ url_for('admin_settings') }}" class="admin-quick-action">
+        <span class="admin-quick-action-icon">⚙️</span>
+        Настройки форума
+    </a>
+</div>
+
+<div class="flex gap-6">
+    <!-- Последние пользователи -->
+    <div style="flex: 1;">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3 class="admin-card-title">Последние пользователи</h3>
+                <a href="{{ url_for('admin_users') }}" class="btn">Все</a>
+            </div>
+            <div class="admin-card-body">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Пользователь</th>
+                            <th>Дата регистрации</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>user_new</td>
+                            <td>Сегодня, 14:30</td>
+                            <td><span class="admin-badge admin-badge-success">Активен</span></td>
+                        </tr>
+                        <tr>
+                            <td>test_user</td>
+                            <td>Вчера, 18:15</td>
+                            <td><span class="admin-badge admin-badge-success">Активен</span></td>
+                        </tr>
+                        <tr>
+                            <td>spammer123</td>
+                            <td>2 дня назад</td>
+                            <td><span class="admin-badge admin-badge-danger">Заблокирован</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Последние темы -->
+    <div style="flex: 1;">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3 class="admin-card-title">Последние темы</h3>
+                <a href="{{ url_for('admin_topics') }}" class="btn">Все</a>
+            </div>
+            <div class="admin-card-body">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Тема</th>
+                            <th>Автор</th>
+                            <th>Ответы</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Обсуждение нового дизайна</td>
+                            <td>admin</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>Проблемы с регистрацией</td>
+                            <td>user_new</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Предложения по функционалу</td>
+                            <td>test_user</td>
+                            <td>8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

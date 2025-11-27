@@ -55,7 +55,9 @@
                                     </h3>
                                     <p class="text-muted text-small">{{ topic.content }}</p>
                                     <br>
-                                    <p class="text-muted text-small">Автор: {{ topic.author }} • {{ topic.created_at }}</p>
+                                    <p class="text-muted text-small">Автор:<a href="{{ url_for('profile', username=topic.author) }}" style="color: #ffffff; text-decoration: none;">
+                                        {{ topic.author }}
+                                    </a> • {{ topic.created_at }}</p>
                                     {% if session.user_id == topic.user_id %}
                                         <form method="POST" style="display: inline;">
                                             <input type="hidden" name="action" value="delete">
