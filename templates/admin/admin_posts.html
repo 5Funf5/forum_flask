@@ -1,0 +1,178 @@
+{% extends "admin/admin_base.html" %}
+
+{% block admin_title %}Сообщения - Админ-панель{% endblock %}
+{% block admin_page_title %}Управление сообщениями{% endblock %}
+
+{% block admin_content %}
+<!-- Поиск и фильтры -->
+<div class="admin-filters">
+    <div class="admin-search-box">
+        <input type="text" class="admin-search-input" placeholder="Поиск в сообщениях...">
+        <span class="admin-search-icon">🔍</span>
+    </div>
+    <div class="admin-filter-group">
+        <label class="admin-form-label">Тема:</label>
+        <select class="admin-form-select">
+            <option value="">Все темы</option>
+            <option value="45">Обсуждение нового дизайна</option>
+            <option value="42">Проблемы с регистрацией</option>
+        </select>
+    </div>
+    <div class="admin-filter-group">
+        <label class="admin-form-label">Статус:</label>
+        <select class="admin-form-select">
+            <option value="">Все</option>
+            <option value="normal">Обычные</option>
+            <option value="reported">Жалобы</option>
+            <option value="deleted">Удаленные</option>
+        </select>
+    </div>
+</div>
+
+<!-- Таблица сообщений -->
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h3 class="admin-card-title">Сообщения (1,248)</h3>
+        <div class="admin-card-actions">
+            <button class="btn">Очистить кэш</button>
+        </div>
+    </div>
+    <div class="admin-card-body">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Содержание</th>
+                    <th>Автор</th>
+                    <th>Тема</th>
+                    <th>Дата</th>
+                    <th>Статус</th>
+                    <th>Жалобы</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1245</td>
+                    <td>
+                        <div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                            Отличный новый дизайн! Особенно нравится темная тема...
+                        </div>
+                    </td>
+                    <td>user_new</td>
+                    <td>Обсуждение нового дизайна</td>
+                    <td>Сегодня, 14:30</td>
+                    <td><span class="admin-badge admin-badge-success">ОК</span></td>
+                    <td>0</td>
+                    <td>
+                        <div class="admin-table-actions">
+                            <button class="btn" title="Просмотр">👁️</button>
+                            <button class="btn" title="Редактировать">✏️</button>
+                            <button class="btn" title="Удалить">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1242</td>
+                    <td>
+                        <div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                            [ЖАЛОБА] Спам сообщение с рекламой...
+                        </div>
+                    </td>
+                    <td>spammer123</td>
+                    <td>Новая тема</td>
+                    <td>Сегодня, 12:15</td>
+                    <td><span class="admin-badge admin-badge-danger">Удалено</span></td>
+                    <td>3</td>
+                    <td>
+                        <div class="admin-table-actions">
+                            <button class="btn">👁️</button>
+                            <button class="btn">✏️</button>
+                            <button class="btn">↻</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1238</td>
+                    <td>
+                        <div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                            У меня не получается зарегистрироваться, выдает ошибку...
+                        </div>
+                    </td>
+                    <td>new_user</td>
+                    <td>Проблемы с регистрацией</td>
+                    <td>Вчера, 18:45</td>
+                    <td><span class="admin-badge admin-badge-warning">Жалоба</span></td>
+                    <td>1</td>
+                    <td>
+                        <div class="admin-table-actions">
+                            <button class="btn">👁️</button>
+                            <button class="btn">✏️</button>
+                            <button class="btn">✅</button>
+                            <button class="btn">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1230</td>
+                    <td>
+                        <div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                            Предлагаю добавить функцию загрузки аватаров...
+                        </div>
+                    </td>
+                    <td>active_user</td>
+                    <td>Предложения по функционалу</td>
+                    <td>2 дня назад</td>
+                    <td><span class="admin-badge admin-badge-success">ОК</span></td>
+                    <td>0</td>
+                    <td>
+                        <div class="admin-table-actions">
+                            <button class="btn">👁️</button>
+                            <button class="btn">✏️</button>
+                            <button class="btn">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="admin-card-footer">
+        <div class="admin-pagination">
+            <button class="btn">‹</button>
+            <button class="btn" style="background-color: #555;">1</button>
+            <button class="btn">2</button>
+            <button class="btn">3</button>
+            <button class="btn">...</button>
+            <button class="btn">25</button>
+            <button class="btn">›</button>
+        </div>
+    </div>
+</div>
+
+<!-- Статистика сообщений -->
+<div class="admin-card">
+    <div class="admin-card-header">
+        <h3 class="admin-card-title">Статистика сообщений</h3>
+    </div>
+    <div class="admin-card-body">
+        <div class="flex gap-6 text-center">
+            <div style="flex: 1;">
+                <div class="admin-stat-number">1,248</div>
+                <div class="admin-stat-label">Всего сообщений</div>
+            </div>
+            <div style="flex: 1;">
+                <div class="admin-stat-number">5</div>
+                <div class="admin-stat-label">На модерации</div>
+            </div>
+            <div style="flex: 1;">
+                <div class="admin-stat-number">12</div>
+                <div class="admin-stat-label">Удалено</div>
+            </div>
+            <div style="flex: 1;">
+                <div class="admin-stat-number">42</div>
+                <div class="admin-stat-label">Жалоб</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

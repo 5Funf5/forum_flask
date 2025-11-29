@@ -5,37 +5,11 @@
 
 {% block admin_content %}
 <!-- Поиск и фильтры -->
-<div class="admin-filters">
-    <div class="admin-search-box">
-        <input type="text" class="admin-search-input" placeholder="Поиск пользователей...">
-        <span class="admin-search-icon">🔍</span>
-    </div>
-    <div class="admin-filter-group">
-        <label class="admin-form-label">Статус:</label>
-        <select class="admin-form-select">
-            <option value="">Все</option>
-            <option value="active">Активные</option>
-            <option value="banned">Заблокированные</option>
-            <option value="inactive">Неактивные</option>
-        </select>
-    </div>
-    <div class="admin-filter-group">
-        <label class="admin-form-label">Сортировка:</label>
-        <select class="admin-form-select">
-            <option value="newest">Сначала новые</option>
-            <option value="oldest">Сначала старые</option>
-            <option value="name">По имени</option>
-        </select>
-    </div>
-</div>
 
 <!-- Таблица пользователей -->
 <div class="admin-card">
     <div class="admin-card-header">
-        <h3 class="admin-card-title">Список пользователей (42)</h3>
-        <div class="admin-card-actions">
-            <button class="btn btn-primary">Добавить пользователя</button>
-        </div>
+        <h3 class="admin-card-title">Список пользователей:</h3>
     </div>
     <div class="admin-card-body">
         <table class="admin-table">
@@ -47,101 +21,26 @@
                     <th>Дата регистрации</th>
                     <th>Сообщений</th>
                     <th>Статус</th>
-                    <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
+                {% for user in users %}
                 <tr>
-                    <td>1</td>
+                    <td>{{ user.id }}</td>
                     <td>
                         <div class="flex items-center gap-2">
-                            <div class="avatar">A</div>
-                            <span>admin</span>
+                            <div class="avatar">{{ user.username[:1] }}</div>
+                            <span>{{ user.username }}</span>
                         </div>
                     </td>
-                    <td>admin@example.com</td>
-                    <td>2024-01-15</td>
-                    <td>156</td>
-                    <td><span class="admin-badge admin-badge-primary">Админ</span></td>
-                    <td>
-                        <div class="admin-table-actions">
-                            <button class="btn">✏️</button>
-                            <button class="btn">👁️</button>
-                            <button class="btn">🗑️</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>
-                        <div class="flex items-center gap-2">
-                            <div class="avatar">M</div>
-                            <span>moderator</span>
-                        </div>
-                    </td>
-                    <td>mod@example.com</td>
-                    <td>2024-01-20</td>
-                    <td>89</td>
-                    <td><span class="admin-badge admin-badge-info">Модератор</span></td>
-                    <td>
-                        <div class="admin-table-actions">
-                            <button class="btn">✏️</button>
-                            <button class="btn">👁️</button>
-                            <button class="btn">🗑️</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>
-                        <div class="flex items-center gap-2">
-                            <div class="avatar">U</div>
-                            <span>user_new</span>
-                        </div>
-                    </td>
-                    <td>user@example.com</td>
-                    <td>2024-03-10</td>
-                    <td>15</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.created_at }}</td>
+                    <td>{{ user.post_count }}</td>
                     <td><span class="admin-badge admin-badge-success">Активен</span></td>
-                    <td>
-                        <div class="admin-table-actions">
-                            <button class="btn">✏️</button>
-                            <button class="btn">👁️</button>
-                            <button class="btn">🗑️</button>
-                        </div>
-                    </td>
                 </tr>
-                <tr>
-                    <td>4</td>
-                    <td>
-                        <div class="flex items-center gap-2">
-                            <div class="avatar">S</div>
-                            <span>spammer123</span>
-                        </div>
-                    </td>
-                    <td>spam@example.com</td>
-                    <td>2024-03-08</td>
-                    <td>2</td>
-                    <td><span class="admin-badge admin-badge-danger">Заблокирован</span></td>
-                    <td>
-                        <div class="admin-table-actions">
-                            <button class="btn">✏️</button>
-                            <button class="btn">👁️</button>
-                            <button class="btn">🗑️</button>
-                        </div>
-                    </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
-    </div>
-    <div class="admin-card-footer">
-        <div class="admin-pagination">
-            <button class="btn">‹</button>
-            <button class="btn" style="background-color: #555;">1</button>
-            <button class="btn">2</button>
-            <button class="btn">3</button>
-            <button class="btn">›</button>
-        </div>
     </div>
 </div>
 {% endblock %}

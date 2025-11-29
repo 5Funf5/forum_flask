@@ -1,0 +1,43 @@
+{% extends "admin/admin_base.html" %}
+
+{% block admin_title %}Темы - Админ-панель{% endblock %}
+{% block admin_page_title %}Управление темами{% endblock %}
+
+{% block admin_content %}
+<!-- Поиск и фильтры -->
+
+<!-- Таблица тем -->
+<div class="admin-card">
+    <div class="admin-card-header">
+    </div>
+    <div class="admin-card-body">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название темы</th>
+                    <th>Автор</th>
+                    <th>Категория</th>
+                    <th>Дата</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for topic in topics %}
+                <tr>
+                    <td>{{ topic.id }}</td>
+                    <td>
+                        <a href="#" style="color: #e0e0e0; text-decoration: none;">
+                            {{ topic.title }}
+                        </a>
+                    </td>
+                    <td>{{ topic.username }}</td>
+                    <td>{{ topic.category_name }}</td>
+                    <td>{{ topic.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

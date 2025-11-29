@@ -59,6 +59,7 @@ class Topic(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now().replace(microsecond=0))
     
     # Relationships
+    
     posts = db.relationship('Post', backref='topic', lazy=True, cascade='all, delete-orphan')
     
     def __repr__(self):
@@ -278,7 +279,15 @@ def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'user_id' not in session:
-            return redirect(url_for('login'))
+            print('Не зашел')
+            return redirect(url_for('index'))
+        admin = User.query.get(1)
+        if admin.username == session['username']:
+            pass
+        else:
+            print(admin)
+            print('Не админ')
+            return redirect(url_for('index'))
         # Проверка прав администратора (замените на свою логику)
         # flash('Доступ запрещен. Требуются права администратора.', 'error')
         # return redirect(url_for('index'))
@@ -288,17 +297,47 @@ def admin_required(f):
 @app.route('/admin')
 @admin_required
 def admin_dashboard():
-    return render_template('admin/admin_dashboard.html')
+    class stats:
+        users = len(User.query.all())
+        user_limit = User.query.limit(3).all()
+        
+        topics = len(Topic.query.all())
+        topics_limit = Topic.query.join(User, Topic.user_id == User.id).limit(3).all()
+        
+        posts = len(Post.query.all())
+        last_post = Post.query\
+        .order_by(Post.created_at)\
+        .first()
+        if last_post is not None:
+            last_post = datetime.today().date()
+
+    return render_template('admin/admin_dashboard.html', stats=stats)
 
 @app.route('/admin/users')
 @admin_required
 def admin_users():
-    return render_template('admin/admin_users.html')
+    users = User.query.all()
+    for user in users:
+        user.post_count = len(Post.query.filter(Post.user_id==user.id).all())
+
+    return render_template('admin/admin_users.html', users=users)
 
 @app.route('/admin/topics')
 @admin_required
 def admin_topics():
-    return render_template('admin/admin_topics.html')
+    topics = Topic.query\
+    .join(Category, Topic.category_id == Category.id)\
+    .join(User, Topic.user_id == User.id)\
+    .add_columns(Topic.id,
+                 
+        User.username,
+        Topic.title,       
+        Topic.content,     
+        Topic.created_at,
+        Topic.user_id, Category.name.label('category_name'))\
+    .all()
+
+    return render_template('admin/admin_topics.html', topics = topics)
 
 @app.route('/admin/posts')
 @admin_required
@@ -309,11 +348,6 @@ def admin_posts():
 @admin_required
 def admin_categories():
     return render_template('admin/admin_categories.html')
-
-@app.route('/admin/moderation')
-@admin_required
-def admin_moderation():
-    return render_template('admin/admin_moderation.html')
 
 @app.route('/admin/settings')
 @admin_required
