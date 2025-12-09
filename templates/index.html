@@ -18,6 +18,9 @@
                     {% if session.user_id %}
                     <li><a href="{{ url_for('logout') }}">Выйти</a></li>
                     {% endif %}
+                    {% if session.admin %}
+                    <li><a href="{{ url_for('admin_dashboard') }}">Админ-панель</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>

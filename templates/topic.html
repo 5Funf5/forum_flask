@@ -18,6 +18,9 @@
                     {% if session.user_id %}
                     <li><a href="{{ url_for('logout') }}">Выйти</a></li>
                     {% endif %}
+                    {% if session.admin %}
+                    <li><a href="{{ url_for('admin_dashboard') }}">Админ-панель</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -76,7 +79,7 @@
                 </div>
             </div>
             {% endfor %}
-
+            {% if session.user_id %}
             <div class="card">
                 <div class="card-body">
                     <h3 style="margin-bottom: 1rem;">Ответить</h3>
@@ -88,6 +91,7 @@
                     </form>
                 </div>
             </div>
+            {% endif %}
         </div>
     </main>
 

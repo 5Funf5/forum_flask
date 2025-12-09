@@ -10,40 +10,23 @@
         <h3 class="admin-card-title">Создать новую категорию</h3>
     </div>
     <div class="admin-card-body">
-        <form>
+        <form method="POST">
             <div class="flex gap-4">
                 <div style="flex: 1;">
                     <div class="admin-form-group">
                         <label class="admin-form-label">Название категории</label>
-                        <input type="text" class="admin-form-input" placeholder="Введите название">
+                        <input type="text" class="admin-form-input" placeholder="Введите название", name='name'>
                     </div>
                 </div>
                 <div style="flex: 1;">
                     <div class="admin-form-group">
                         <label class="admin-form-label">Описание</label>
-                        <input type="text" class="admin-form-input" placeholder="Краткое описание">
+                        <input type="text" class="admin-form-input" placeholder="Краткое описание", name='description'>
                     </div>
                 </div>
-                <div style="flex: 0.5;">
-                    <div class="admin-form-group">
-                        <label class="admin-form-label">Порядок</label>
-                        <input type="number" class="admin-form-input" value="0">
-                    </div>
-                </div>
-            </div>
-            <div class="admin-form-group">
-                <label class="admin-form-label">Цвет (HEX)</label>
-                <input type="color" class="admin-form-input" value="#0066cc" style="height: 40px;">
-            </div>
-            <div class="admin-form-group">
-                <label class="admin-form-label">
-                    <input type="checkbox" checked>
-                    Активная категория
-                </label>
             </div>
             <div class="flex gap-2">
                 <button type="submit" class="btn btn-primary">Создать категорию</button>
-                <button type="reset" class="btn">Очистить</button>
             </div>
         </form>
     </div>
@@ -63,142 +46,39 @@
                     <th>Описание</th>
                     <th>Темы</th>
                     <th>Сообщения</th>
-                    <th>Порядок</th>
-                    <th>Статус</th>
                     <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
+                {% for category in categories %}
                 <tr>
-                    <td>1</td>
+                    <td>{{ category.id }}</td>
                     <td>
-                        <div class="flex items-center gap-2">
-                            <div style="width: 16px; height: 16px; background-color: #0066cc; border-radius: 3px;"></div>
-                            <span>Общие обсуждения</span>
-                        </div>
+                        <a href="#" style="color: #e0e0e0; text-decoration: none;">
+                            {{ category.name }}
+                        </a>
                     </td>
-                    <td>Обсуждение на любые темы</td>
-                    <td>45</td>
-                    <td>842</td>
-                    <td>1</td>
-                    <td><span class="admin-badge admin-badge-success">Активна</span></td>
+                    <td>{{ category.description }}</td>
+                    <td>{{ category.topic_count }}</td>
+                    <td>{{ category.post_count }}</td>
                     <td>
                         <div class="admin-table-actions">
-                            <button class="btn">✏️</button>
-                            <button class="btn">↑</button>
-                            <button class="btn">↓</button>
-                            <button class="btn">🗑️</button>
+                            
+                                        <form method="POST" style="display: inline;">
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="category_id" value="{{ category.id }}">
+                                            <button class='btn' type="submit" class="btn btn-danger" 
+                                                    onclick="return confirm('Удалить категорию: {{ category.id }}?')">🗑️</button>
+                                        </form>
+                            
+                            
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>
-                        <div class="flex items-center gap-2">
-                            <div style="width: 16px; height: 16px; background-color: #4CAF50; border-radius: 3px;"></div>
-                            <span>Техническая поддержка</span>
-                        </div>
-                    </td>
-                    <td>Помощь и решение проблем</td>
-                    <td>23</td>
-                    <td>156</td>
-                    <td>2</td>
-                    <td><span class="admin-badge admin-badge-success">Активна</span></td>
-                    <td>
-                        <div class="admin-table-actions">
-                            <button class="btn">✏️</button>
-                            <button class="btn">↑</button>
-                            <button class="btn">↓</button>
-                            <button class="btn">🗑️</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>
-                        <div class="flex items-center gap-2">
-                            <div style="width: 16px; height: 16px; background-color: #ff9800; border-radius: 3px;"></div>
-                            <span>Предложения и идеи</span>
-                        </div>
-                    </td>
-                    <td>Предложения по улучшению форума</td>
-                    <td>18</td>
-                    <td>89</td>
-                    <td>3</td>
-                    <td><span class="admin-badge admin-badge-success">Активна</span></td>
-                    <td>
-                        <div class="admin-table-actions">
-                            <button class="btn">✏️</button>
-                            <button class="btn">↑</button>
-                            <button class="btn">↓</button>
-                            <button class="btn">🗑️</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>
-                        <div class="flex items-center gap-2">
-                            <div style="width: 16px; height: 16px; background-color: #9c27b0; border-radius: 3px;"></div>
-                            <span>Архив</span>
-                        </div>
-                    </td>
-                    <td>Старые и неактивные темы</td>
-                    <td>70</td>
-                    <td>1.2k</td>
-                    <td>99</td>
-                    <td><span class="admin-badge admin-badge-warning">Только чтение</span></td>
-                    <td>
-                        <div class="admin-table-actions">
-                            <button class="btn">✏️</button>
-                            <button class="btn">↑</button>
-                            <button class="btn">↓</button>
-                            <button class="btn">🗑️</button>
-                        </div>
-                    </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 
-<!-- Настройки категорий -->
-<div class="admin-card">
-    <div class="admin-card-header">
-        <h3 class="admin-card-title">Настройки категорий</h3>
-    </div>
-    <div class="admin-card-body">
-        <div class="flex gap-6">
-            <div style="flex: 1;">
-                <div class="admin-form-group">
-                    <label class="admin-form-label">
-                        <input type="checkbox" checked>
-                        Разрешить создание тем во всех категориях
-                    </label>
-                </div>
-                <div class="admin-form-group">
-                    <label class="admin-form-label">
-                        <input type="checkbox">
-                        Требовать модерации новых тем
-                    </label>
-                </div>
-            </div>
-            <div style="flex: 1;">
-                <div class="admin-form-group">
-                    <label class="admin-form-label">
-                        <input type="checkbox" checked>
-                        Показывать количество тем/сообщений
-                    </label>
-                </div>
-                <div class="admin-form-group">
-                    <label class="admin-form-label">
-                        <input type="checkbox">
-                        Скрыть пустые категории
-                    </label>
-                </div>
-            </div>
-        </div>
-        <button class="btn btn-primary">Сохранить настройки</button>
-    </div>
-</div>
 {% endblock %}

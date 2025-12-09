@@ -17,6 +17,9 @@
                     {% if session.user_id %}
                     <li><a href="{{ url_for('logout') }}">Выйти</a></li>
                     {% endif %}
+                    {% if session.admin %}
+                    <li><a href="{{ url_for('admin_dashboard') }}">Админ-панель</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -68,7 +71,7 @@
                                 <ul class="list">
                                     {% for post in recent_posts %}
                                     <li class="list-item">
-                                        <a href="{{ url_for('topic', topic_id=post.id) }}" style="color: #ffffff; text-decoration: none;">
+                                        <a href="{{ url_for('topic', topic_id=post.topic_id) }}" style="color: #ffffff; text-decoration: none;">
                                             {{ post.content }}
                                         </a>
                                         <div class="text-muted text-small">{{ post.created_at }}</div>

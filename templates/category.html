@@ -18,6 +18,9 @@
                     {% if session.user_id %}
                     <li><a href="{{ url_for('logout') }}">Выйти</a></li>
                     {% endif %}
+                    {% if session.admin %}
+                    <li><a href="{{ url_for('admin_dashboard') }}">Админ-панель</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -71,7 +74,6 @@
                                 
                                 <div class="text-right">
                                     <div class="text-small">Ответов: {{ topic.reply_count }}</div>
-                                    <div class="text-small text-muted">Просмотров: {{ topic.views }}</div>
                                 </div>
                                 
                             </div>
@@ -81,6 +83,7 @@
                     </ul>
                 </div>
             </div>
+            {% if session.user_id %}
             <div class="card">
                 <div class="card-body">
                     <h3 style="margin-bottom: 1rem;">Создать тему</h3>
@@ -93,6 +96,7 @@
                     </form>
                 </div>
             </div>
+            {% endif %}
         </div>
     </main>
 

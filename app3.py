@@ -13,7 +13,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = CONFIG.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = CONFIG.SQLALCHEMY_TRACK_MODIFICATIONS
 db = SQLAlchemy(app)
 
-
+# ! Протестить на баги
+# ! Сделать рефакторинг кода и вынести все по отдельным функциям и классам
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -131,6 +132,7 @@ def profile(username=None):
             Topic.title.label('topic_title')
         )\
         .filter(Post.user_id==user.id)\
+        .order_by(Post.created_at.desc())\
         .limit(5)\
         .all()
     
@@ -149,6 +151,7 @@ def login_page():
         return render_template('login.html', form_type=form_type)
 
 @app.route('/login', methods=['GET', 'POST'])
+
 def login():
     if request.form.get('form_type') == 'login':
         username = request.form.get('username')
@@ -163,6 +166,13 @@ def login():
             session['user_id'] = user.id
             session['username'] = user.username
             session['online'] = 'online'
+            
+            admin = User.query.get(1)
+            print(admin.username)
+            print(user.username)
+            if admin.username == session['username']:
+                print('True')
+                session['admin'] = 1
 
             flash('Вы успешно вошли в систему!', 'success')
             return redirect(url_for('index'))
@@ -225,7 +235,10 @@ def about():
 def category(category_id):
     category = Category.query.get(category_id)
     
-    topics = Topic.query.filter(Topic.category_id == category_id)
+    topics = Topic.query.filter(Topic.category_id == category_id).all()
+    for topics_id in topics:
+        topics_id.reply_count = len(Post.query.filter(Post.topic_id==topics_id.id).all())
+    print(topics)
     if request.method == 'POST':
         action = request.form.get('action')
         if action == 'delete':
@@ -283,7 +296,7 @@ def admin_required(f):
             return redirect(url_for('index'))
         admin = User.query.get(1)
         if admin.username == session['username']:
-            pass
+            session['admin'] = True
         else:
             print(admin)
             print('Не админ')
@@ -342,18 +355,50 @@ def admin_topics():
 @app.route('/admin/posts')
 @admin_required
 def admin_posts():
-    return render_template('admin/admin_posts.html')
+    posts = Post.query\
+    .join(Topic, Post.topic_id == Topic.id)\
+    .join(User, Post.user_id == User.id)\
+    .add_columns(Post.id,
+                 
+        User.username,
+        Post.content,       
+        Post.created_at,
+        Topic.title.label('topic_name'))\
+    .all()
+    return render_template('admin/admin_posts.html', posts=posts)
 
-@app.route('/admin/categories')
+@app.route('/admin/categories', methods=['GET', 'POST'])
 @admin_required
 def admin_categories():
-    return render_template('admin/admin_categories.html')
+    categories = Category.query.all()
+    for categories_id in categories:
+        categories_id.topic_count = len(Topic.query.filter(Topic.category_id==categories_id.id).all())
+        post_all = Topic.query.filter(Topic.category_id==categories_id.id).all()
+        categories_id.post_count = 0
+        for post_id in post_all:
+            number = len(Post.query.filter(Post.topic_id==post_id.id).all())
+            categories_id.post_count = categories_id.post_count + number
 
-@app.route('/admin/settings')
-@admin_required
-def admin_settings():
-    return render_template('admin/admin_settings.html')        
-        
+    if request.method == 'POST':
+        action = request.form.get('action')
+        if action == 'delete':
+            category_id = request.form.get('category_id')
+            delete_category = Category.query.get(category_id)
+            if delete_category:
+                db.session.delete(delete_category)
+                db.session.commit()
+                flash('Категория удалена')
+        else:
+            name = request.form['name']
+            description = request.form['description']
+            user_id = session['user_id']
+            category = Category(name=name, description=description, user_id=user_id)
+            db.session.add(category)
+            db.session.commit()
+            flash('Вы создали категорию')
+    return render_template('admin/admin_categories.html', categories=categories)
+
+  
         
         
         
