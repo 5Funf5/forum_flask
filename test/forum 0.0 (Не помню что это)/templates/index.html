@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="forum-header">
+    <h1>Добро пожаловать на форум</h1>
+</div>
+
+<div class="sections">
+    <h2>Разделы форума</h2>
+    {% for category in categories %}
+    <div class="category">
+        <h3><a href="{{ url_for('category', category_id=category.id) }}">{{ category.name }}</a></h3>
+        <p>{{ category.description }}</p>
+        <small>Тем: {{ category.topic_count }}</small>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="recent-topics">
+    <h2>Последние темы</h2>
+    {% for topic in recent_topics %}
+    <div class="topic-preview">
+        <h4><a href="{{ url_for('topic', topic_id=topic.id) }}">{{ topic.title }}</a></h4>
+        <small>Автор: {{ topic.username }} | Раздел: {{ topic.category_name }} | {{ topic.created_at[:10] }}</small>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
